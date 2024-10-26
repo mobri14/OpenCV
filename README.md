@@ -143,3 +143,43 @@ while True:
 cap.release()
 cv2.destroyAllWindows()
 ```
+persion comment:
+
+
+```
+import cv2
+
+# بارگذاری پیش‌نیازهای تشخیص چهره
+face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+
+# استفاده از دوربین
+cap = cv2.VideoCapture(0)  # 0 برای دوربین پیش‌فرض
+
+while True:
+    # خواندن فریم‌ها از دوربین
+    ret, frame = cap.read()
+    
+    if not ret:
+        break
+    
+    # تبدیل تصویر به رنگ خاکستری
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    
+    # شناسایی چهره‌ها
+    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5)
+    
+    # رسم مستطیل روی چهره‌ها
+    for (x, y, w, h) in faces:
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
+    # نمایش تصویر
+    cv2.imshow("Face Detection", frame)
+
+    # برای خروج از حلقه، کلید 'q' را فشار دهید
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+# آزاد کردن منابع
+cap.release()
+cv2.destroyAllWindows()
+```
